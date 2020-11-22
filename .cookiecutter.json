@@ -1,0 +1,10 @@
+{
+  "_template": "gh:cjolowicz/cookiecutter-hypermodern-python",
+  "author": "Aliaksandr Zanouski",
+  "email": "alexander.zanousky@gmail.com",
+  "friendly_name": "Rebar Modelling",
+  "github_user": "zazhka",
+  "package_name": "rebar_modelling",
+  "project_name": "rebar-modelling",
+  "version": "0.0.0"
+}
