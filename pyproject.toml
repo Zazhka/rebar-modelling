@@ -9,7 +9,6 @@ homepage = "https://github.com/zazhka/rebar-modelling"
 repository = "https://github.com/zazhka/rebar-modelling"
 documentation = "https://rebar-modelling.readthedocs.io"
 classifiers = [
-    "Programming Language :: Python :: 3.6",
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
@@ -19,7 +18,7 @@ classifiers = [
 Changelog = "https://github.com/zazhka/rebar-modelling/releases"
 
 [tool.poetry.dependencies]
-python = "^3.6.1"
+python = "^3.7"
 click = "^7.0"
 
 [tool.poetry.dev-dependencies]
