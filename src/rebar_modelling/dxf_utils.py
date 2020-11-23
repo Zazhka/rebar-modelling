@@ -74,3 +74,13 @@ class DXFModel:
                         value = candidate_value
 
         return value
+
+    def minimal_rebar_length(self, axis):
+        """Minimal rebar length with anker length equal 1."""
+        min_border_coordinate = self.find_border_coordinate(axis=axis, extrema="min")
+        max_border_coordinate = self.find_border_coordinate(axis=axis, extrema="max")
+        anker_length = 1
+        min_coordinate = min_border_coordinate - anker_length
+        max_coordinate = max_border_coordinate + anker_length
+        minimal_length = max_coordinate - min_coordinate
+        return minimal_length
