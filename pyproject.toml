@@ -20,6 +20,7 @@ Changelog = "https://github.com/zazhka/rebar-modelling/releases"
 [tool.poetry.dependencies]
 python = "^3.7"
 click = "^7.0"
+ezdxf = "^0.14.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.1.2"
