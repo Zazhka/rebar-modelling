@@ -140,10 +140,34 @@ class DXFModel:
         )
         return zone_width
 
-    # def reinforcement_zone_coordinates(self, rebar_length):
-    #     """Find reinforcement zone coordinates."""
-    #     if self.axis == "y":
-    #         y_center = (self.y_max + self.y_min) / 2
-    #         zone_y_min_coordinate = y_center - rebar_length / 2
-    #         zone_y_max_coordinate = y_center + rebar_length / 2
-    #         zone_x_min_coordinate = self.x_min
+    def reinforcement_zone_coordinates(self, rebar_length, zone_width):
+        """Find reinforcement zone coordinates."""
+        if self.axis == "x":
+            x_center = (self.x_max + self.x_min) / 2
+            zone_x_min_coordinate = x_center - rebar_length / 2
+            zone_x_max_coordinate = x_center + rebar_length / 2
+
+            y_center = (self.y_max + self.y_min) / 2
+            zone_y_min_coordinate = y_center - zone_width / 2
+            zone_y_max_coordinate = y_center + zone_width / 2
+
+        elif self.axis == "y":
+            y_center = (self.y_max + self.y_min) / 2
+            zone_y_min_coordinate = y_center - rebar_length / 2
+            zone_y_max_coordinate = y_center + rebar_length / 2
+
+            x_center = (self.x_max + self.x_min) / 2
+            zone_x_min_coordinate = x_center - zone_width / 2
+            zone_x_max_coordinate = x_center + zone_width / 2
+
+        else:
+            return None
+
+        zone_coordinates = {
+            "bl": (zone_x_min_coordinate, zone_y_min_coordinate),
+            "br": (zone_x_max_coordinate, zone_y_min_coordinate),
+            "tr": (zone_x_max_coordinate, zone_y_max_coordinate),
+            "tl": (zone_x_min_coordinate, zone_y_max_coordinate),
+        }
+
+        return zone_coordinates
