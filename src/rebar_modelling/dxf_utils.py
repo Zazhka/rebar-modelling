@@ -9,10 +9,15 @@ from rebar_modelling.data import rebar_length_data
 class DXFModel:
     """Class that handles methods to work with DXF files."""
 
-    def __init__(self, filename):
+    def __init__(self, filename, axis):
         """Initialize DXF model."""
         self.open_dxf(filename)
+        self.axis = axis
         self.msp = self.doc.modelspace()
+        self.x_min = self.find_border_coordinate(axis="x", extrema="min")
+        self.y_min = self.find_border_coordinate(axis="y", extrema="min")
+        self.x_max = self.find_border_coordinate(axis="x", extrema="max")
+        self.y_max = self.find_border_coordinate(axis="y", extrema="max")
 
     def open_dxf(self, filename):
         """Tries to open provided dxf file and returns modelspace."""
@@ -77,13 +82,22 @@ class DXFModel:
 
         return value
 
-    def minimal_rebar_length(self, axis):
+    def minimal_rebar_length(self):
         """Minimal rebar length with anker length equal 1."""
-        min_border_coordinate = self.find_border_coordinate(axis=axis, extrema="min")
-        max_border_coordinate = self.find_border_coordinate(axis=axis, extrema="max")
-        anchorage_length = 1
-        min_coordinate = min_border_coordinate - anchorage_length
-        max_coordinate = max_border_coordinate + anchorage_length
+        if self.axis == "x":
+            min_border_coordinate = self.x_min
+            max_border_coordinate = self.x_max
+        elif self.axis == "y":
+            min_border_coordinate = self.y_min
+            max_border_coordinate = self.y_max
+        else:
+            return None
+
+        anchorage_length = 1000
+        equivalent_anchorage_length = anchorage_length / 1000
+
+        min_coordinate = min_border_coordinate - equivalent_anchorage_length
+        max_coordinate = max_border_coordinate + equivalent_anchorage_length
         minimal_length = max_coordinate - min_coordinate
         return minimal_length
 
@@ -93,3 +107,43 @@ class DXFModel:
             equivalent_length = i / 1000
             if equivalent_length > minimal_length:
                 return equivalent_length
+
+    def minimal_zone_width(self):
+        """Find minimal zone width with indent 50."""
+        if self.axis == "x":
+            min_border_coordinate = self.y_min
+            max_border_coordinate = self.y_max
+        elif self.axis == "y":
+            min_border_coordinate = self.x_min
+            max_border_coordinate = self.x_max
+        else:
+            return None
+
+        indent = 50
+        equivalent_indent = indent / 1000
+
+        min_coordinate = min_border_coordinate - equivalent_indent
+        max_coordinate = max_border_coordinate + equivalent_indent
+        minimal_width = max_coordinate - min_coordinate
+
+        return minimal_width
+
+    def zone_width(self, minimal_width):
+        """Find reinforcement zone width."""
+        reinforcement_pitch = 200
+        equivalent_reinforcement_pitch = reinforcement_pitch / 1000
+
+        zone_width = (
+            minimal_width
+            + equivalent_reinforcement_pitch
+            - minimal_width % equivalent_reinforcement_pitch
+        )
+        return zone_width
+
+    # def reinforcement_zone_coordinates(self, rebar_length):
+    #     """Find reinforcement zone coordinates."""
+    #     if self.axis == "y":
+    #         y_center = (self.y_max + self.y_min) / 2
+    #         zone_y_min_coordinate = y_center - rebar_length / 2
+    #         zone_y_max_coordinate = y_center + rebar_length / 2
+    #         zone_x_min_coordinate = self.x_min
