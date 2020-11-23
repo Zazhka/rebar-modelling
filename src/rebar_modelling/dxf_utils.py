@@ -3,6 +3,8 @@ import sys
 
 import ezdxf
 
+from rebar_modelling.data import rebar_length_data
+
 
 class DXFModel:
     """Class that handles methods to work with DXF files."""
@@ -84,3 +86,10 @@ class DXFModel:
         max_coordinate = max_border_coordinate + anchorage_length
         minimal_length = max_coordinate - min_coordinate
         return minimal_length
+
+    def rebar_length(self, minimal_length):
+        """Find appropriate rebar length."""
+        for i in rebar_length_data.possible_rebar_length:
+            equivalent_length = i / 1000
+            if equivalent_length > minimal_length:
+                return equivalent_length

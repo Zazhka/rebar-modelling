@@ -10,7 +10,8 @@ def main() -> None:
     """Rebar Modelling."""
     msp = DXFModel(filename="top_y.dxf")
     minimal_length = DXFModel.minimal_rebar_length(msp, axis="y")
-    print(minimal_length)
+    actual_length = DXFModel.rebar_length(msp, minimal_length)
+    print(minimal_length, actual_length)
 
 
 if __name__ == "__main__":
