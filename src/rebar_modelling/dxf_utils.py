@@ -4,6 +4,7 @@ from typing import Any
 from typing import Dict
 from typing import Tuple
 
+import click
 import ezdxf
 from ezdxf.layouts.layout import Modelspace
 
@@ -27,12 +28,13 @@ class DXFModel:
         """Tries to open provided dxf file and returns modelspace."""
         try:
             self.doc = ezdxf.readfile(filename)
-            print("DXF opened without any issues")
+            click.secho("DXF opened without any issues", fg="green")
             return self.doc.modelspace()
 
-        except IOError:
+        except IOError as error:
+            message = str(error)
             print("Not a DXF file or a generic I/O error.")
-            sys.exit(1)
+            raise click.ClickException(message)
         except ezdxf.DXFStructureError:
             print("Invalid or corrupted DXF file.")
             sys.exit(2)
@@ -102,8 +104,8 @@ class DXFModel:
             min_border_coordinate = self.y_min
             max_border_coordinate = self.y_max
         else:
-            raise ValueError(
-                "Unknown axis provided. You should provide axes 'x' or 'y'."
+            raise click.BadParameter(
+                "Unknown axis provided.", param=self.axis, param_hint=["x", "y"]
             )
 
         anchorage_length = 1000
