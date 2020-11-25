@@ -15,10 +15,11 @@ def main() -> None:
     minimal_width = DXFModel.minimal_zone_width(msp)
     zone_width = DXFModel.zone_width(msp, minimal_width)
     # print(minimal_width, zone_width)
-    reinforcemen_zone = DXFModel.reinforcement_zone_coordinates(
-        msp, actual_length, zone_width
-    )
-    print(reinforcemen_zone)
+    DXFModel.reinforcement_zone_coordinates(msp, actual_length, zone_width)
+    # reinforcemen_zone = DXFModel.reinforcement_zone_coordinates(
+    #     msp, actual_length, zone_width
+    # )
+    # print(reinforcemen_zone)
 
 
 if __name__ == "__main__":
