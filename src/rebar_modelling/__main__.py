@@ -17,7 +17,7 @@ from rebar_modelling.dxf_utils import DXFModel
     ),
 )
 @click.version_option(version=__version__)
-def main(filename, axis) -> None:
+def main(filename: str, axis: str) -> None:
     """Rebar Modelling."""
     msp = DXFModel(filename=filename, axis=axis)
     minimal_length = DXFModel.minimal_rebar_length(msp)
