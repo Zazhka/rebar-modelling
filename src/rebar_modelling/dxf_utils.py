@@ -104,9 +104,7 @@ class DXFModel:
             min_border_coordinate = self.y_min
             max_border_coordinate = self.y_max
         else:
-            raise click.BadParameter(
-                "Unknown axis provided.", param=self.axis, param_hint=["x", "y"]
-            )
+            raise click.BadParameter("Unknown axis provided.")
 
         anchorage_length = 1000
         equivalent_anchorage_length = anchorage_length / 1000
