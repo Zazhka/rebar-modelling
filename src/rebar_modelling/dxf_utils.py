@@ -1,5 +1,4 @@
 """Utils to work with DXF files."""
-import sys
 from typing import Any
 from typing import Dict
 from typing import Tuple
@@ -33,11 +32,12 @@ class DXFModel:
 
         except IOError as error:
             message = str(error)
-            print("Not a DXF file or a generic I/O error.")
+            click.secho("Not a DXF file or a generic I/O error.", fg="red")
             raise click.ClickException(message)
-        except ezdxf.DXFStructureError:
-            print("Invalid or corrupted DXF file.")
-            sys.exit(2)
+        except ezdxf.DXFStructureError as error:
+            message = str(error)
+            click.secho("Invalid or corrupted DXF file.", fg="red")
+            raise click.ClickException(message)
 
     def print_entity(self, e: Any) -> None:
         """Prints entity coordinates and layer."""
