@@ -22,7 +22,7 @@ python = "^3.7"
 click = "^7.0"
 
 [tool.poetry.dev-dependencies]
-pytest = "^6.1.2"
+pytest = "^7.2.1"
 coverage = {extras = ["toml"], version = "^5.3"}
 safety = "^1.9.0"
 mypy = "^0.790"
